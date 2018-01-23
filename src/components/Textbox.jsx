@@ -25,9 +25,14 @@ const StyledInput = styled('input')`
 class Textbox extends React.Component {
   render() {
     return (
-      <StyledInput type="text" placeholder={this.props.placeholder}/>
+      this.props.autofocus ?
+      <StyledInput type="text" placeholder={this.props.placeholder} /> :
+      <StyledInput type="text" autoFocus={true} placeholder={this.props.placeholder} />
     );
   }
 }
+
+Textbox.defaultProps = { autofocus: false };
+
 
 export default Textbox;

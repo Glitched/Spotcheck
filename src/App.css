@@ -6,6 +6,10 @@ body {
   color: white;
 }
 
+.App {
+  text-align: center;
+}
+
 ::-webkit-input-placeholder {
    text-transform: initial;
 }
