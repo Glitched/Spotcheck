@@ -5,3 +5,19 @@ body {
   min-height: 100vh;
   color: white;
 }
+
+::-webkit-input-placeholder {
+   text-transform: initial;
+}
+
+:-moz-placeholder {
+   text-transform: initial;
+}
+
+::-moz-placeholder {
+   text-transform: initial;
+}
+
+:-ms-input-placeholder {
+   text-transform: initial;
+}
