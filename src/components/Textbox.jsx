@@ -34,5 +34,4 @@ class Textbox extends React.Component {
 
 Textbox.defaultProps = { autofocus: false };
 
-
 export default Textbox;
