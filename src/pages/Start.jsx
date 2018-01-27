@@ -10,8 +10,8 @@ class Start extends React.Component {
     return (
       <React.Fragment>
         <Heading>Spotcheck</Heading>
-        <Textbox placeholder="Code" autofocus={true}/>
-        <Textbox placeholder="Username" autofocus={false}/>
+        <Textbox type="tel" placeholder="Code" autofocus={true}/>
+        <Textbox type="text" placeholder="Username" autofocus={false}/>
         <Link to="/Players">
           <ActionButton title="Let's Rock!"/>
         </Link>

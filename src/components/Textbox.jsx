@@ -26,8 +26,8 @@ class Textbox extends React.Component {
   render() {
     return (
       this.props.autofocus ?
-      <StyledInput type="text" placeholder={this.props.placeholder} /> :
-      <StyledInput type="text" autoFocus={true} placeholder={this.props.placeholder} />
+      <StyledInput type={this.props.type} placeholder={this.props.placeholder} /> :
+      <StyledInput autoFocus={true} type={this.props.type} placeholder={this.props.placeholder} />
     );
   }
 }
