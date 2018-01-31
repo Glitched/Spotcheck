@@ -1,12 +1,12 @@
 import React from 'react';
 import styled, { css } from 'react-emotion'
 
-const Btn = styled('div')`
-  /* Rectangle 3: */
+const Btn = styled('button')`
   background-image: linear-gradient(-90deg, #49D6A7 3%, #3CCDCC 99%);
   box-shadow: 2px 2px 16px 0 rgba(67,210,186,0.35);
   border-radius: 8px;
-  /* Let’s Rock!: */
+  border: 0;
+  outline: none;
   font-family: Lato-Bold;
   font-size: 20px;
   color: #FFFFFF;
@@ -25,7 +25,7 @@ const Btn = styled('div')`
 class ActionButton extends React.Component {
   render() {
     return (
-      <Btn>{this.props.title}</Btn>
+      <Btn onClick={this.props.action}>{this.props.title}</Btn>
     );
   }
 }

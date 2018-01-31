@@ -25,3 +25,9 @@ body {
 :-ms-input-placeholder {
    text-transform: initial;
 }
+
+/* DEBUG */
+ul{
+  list-style: none;
+  padding: 0;
+}

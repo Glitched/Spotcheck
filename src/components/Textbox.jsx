@@ -7,6 +7,7 @@ const StyledInput = styled('input')`
   border-radius: 4px;
   padding: 8px;
   color: white;
+  outline: none;
   font-family: Lato;
   font-weight: 400;
   font-size: 18px;
@@ -23,11 +24,22 @@ const StyledInput = styled('input')`
 `
 
 class Textbox extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {value: ''};
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({value: event.target.value});
+    this.props.onChange(this.props.id, event.target.value)
+  }
+
   render() {
     return (
       this.props.autofocus ?
-      <StyledInput type={this.props.type} placeholder={this.props.placeholder} /> :
-      <StyledInput autoFocus={true} type={this.props.type} placeholder={this.props.placeholder} />
+      <StyledInput value={this.state.value} onChange={this.handleChange} type={this.props.type} placeholder={this.props.placeholder} /> :
+      <StyledInput value={this.state.value} onChange={this.handleChange} autoFocus={true} type={this.props.type} placeholder={this.props.placeholder} />
     );
   }
 }
