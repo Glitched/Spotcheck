@@ -10,7 +10,7 @@ import { connect } from 'react-redux'
 class App extends Component {
   serverDispatch = (action) => {
     console.log("Dispatching to socket");
-    this.refs.ws.dispatch(action);
+    this.refs.ws.dispatchToServer(action);
   };
 
   updateState = (stateDelta) => {
@@ -19,18 +19,32 @@ class App extends Component {
   }
 
   render() {
+
     return (
       <div className="App">
-        <Start
-          serverDispatch={this.serverDispatch}
-          updateSuperState={this.updateState}
-        />
-        {/* <Pregame
-          serverDispatch={this.serverDispatch}
-          username={this.state.username}
-          game={this.state.code}
-        /> */}
-        <Socket />
+        {(() => {
+          switch(this.props.appScreen.name) {
+            case 'Start':
+              return <Start
+                serverDispatch={this.serverDispatch}
+                updateSuperState={this.updateState}
+                     />;
+            case 'Pregame':
+              return <Pregame
+                serverDispatch={this.serverDispatch}
+                username={this.state.username}
+                game={this.state.code}
+                     />;
+            default:
+              return null;
+          }
+        })()}
+
+
+
+        {/*  */}
+        <Socket ref="ws" reduxDispatch={this.props.dispatchFromServer}/>
+        <span>{this.props.appScreen.name}</span>
       </div>
     );
   }
@@ -40,6 +54,12 @@ var mapStateToProps = function(state){
     return {appScreen:state.appScreen};
 };
 
-connect(mapStateToProps)(App);
+const mapDispatchToProps = dispatch => {
+  return {
+    dispatchFromServer: action => {
+      dispatch(action)
+    }
+  }
+}
 
-export default App;
+export default connect(mapStateToProps, mapDispatchToProps)(App);
