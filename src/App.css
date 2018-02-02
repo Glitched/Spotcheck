@@ -31,3 +31,7 @@ ul{
   list-style: none;
   padding: 0;
 }
+
+.debug {
+  opacity: 0.25;
+}

@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import './App.css';
 import Start from './pages/Start'
 import Pregame from './pages/Pregame'
+import Wait from './pages/Wait'
 import Players from './pages/Players'
+import Guess from './pages/Guess'
 import Countdown from './pages/Countdown'
 import Socket from './components/Socket'
 import { connect } from 'react-redux'
@@ -11,6 +13,7 @@ class App extends Component {
   serverDispatch = (action) => {
     console.log("Dispatching to socket");
     this.refs.ws.dispatchToServer(action);
+    this.props.dispatchFromServer(action);
   };
 
   updateState = (stateDelta) => {
@@ -19,7 +22,6 @@ class App extends Component {
   }
 
   render() {
-
     return (
       <div className="App">
         {(() => {
@@ -32,26 +34,32 @@ class App extends Component {
             case 'Pregame':
               return <Pregame
                 serverDispatch={this.serverDispatch}
-                username={this.state.username}
-                game={this.state.code}
+                username={this.props.username}
+                game={this.props.game}
+                     />;
+            case 'Wait':
+              return <Wait
+                username={this.props.username}
+                game={this.props.game}
+                     />;
+            case 'Guess':
+              return <Guess
+                serverDispatch={this.serverDispatch}
+                username={this.props.username}
+                game={this.props.game}
                      />;
             default:
               return null;
           }
         })()}
-
-
-
-        {/*  */}
         <Socket ref="ws" reduxDispatch={this.props.dispatchFromServer}/>
-        <span>{this.props.appScreen.name}</span>
       </div>
     );
   }
 }
 
 var mapStateToProps = function(state){
-    return {appScreen:state.appScreen};
+    return {appScreen:state.appScreen, username:state.username, game:state.game};
 };
 
 const mapDispatchToProps = dispatch => {

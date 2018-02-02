@@ -33,10 +33,9 @@ class Socket extends React.Component {
 
   render() {
     // slice(-5) gives us the five most recent messages
-    return <ul>{ this.state.actions.map(function(action, index) {
+    return <ul className="debug">{ this.state.actions.map(function(action, index) {
       return <li key={index}>
         {action.type}
-        {/* {this.props.appScreen.name} */}
       </li>;
     })} </ul>;
   };
