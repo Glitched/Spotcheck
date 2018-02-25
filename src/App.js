@@ -5,7 +5,6 @@ import Pregame from './pages/Pregame'
 import Wait from './pages/Wait'
 import Players from './pages/Players'
 import Guess from './pages/Guess'
-import Countdown from './pages/Countdown'
 import Socket from './components/Socket'
 import { connect } from 'react-redux'
 
@@ -29,14 +28,13 @@ class App extends Component {
             case 'Start':
               return <Start
                 serverDispatch={this.serverDispatch}
-                updateSuperState={this.updateState}
-                     />;
+                updateSuperState={this.updateState} />;
             case 'Pregame':
-              return <Pregame
+              return  <Pregame
                 serverDispatch={this.serverDispatch}
                 username={this.props.username}
                 game={this.props.game}
-                     />;
+                      />;
             case 'Wait':
               return <Wait
                 username={this.props.username}
