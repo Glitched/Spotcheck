@@ -1,0 +1,73 @@
+// Ryan's websocket API for the game
+{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}
+// Request a token (4 digit number) from the server
+{
+    "type": "GET_TOKEN"
+}
+
+// Server's returns available token to be displayed on droid's screen
+{
+    "type": "CONFIRM_TOKEN",
+    "game": "9425"
+}
+
+// Phone requests username from server. 
+{
+    "type": "REGISTER_USER",
+    "game": "9425",
+    "content": "myUsername"
+}
+// Server checks if username is valid and not in use.
+// On success, server returns a unique user identification number, for future requests
+{
+    "type": "CONFIRM_USER",
+    "game": "9425",
+}
+// Otherwise, server provides a failure
+// Invalid username, username in use, Invalid code...
+{
+    "type": "REJECT_USER",
+    "content": "Invalid Username"
+}
+// Any player may start the game, at any time
+{
+    "type": "START_GAME",
+    "sender": "myUsername",
+    "game": "9425"
+}
+// Sent from TV Box, to transition phones to the enter screen. 
+// Should be sent before the countdown starts
+// Content is "round-song"
+{
+    "type": "NEW_SONG",
+    "game": "9425",
+    "content": "1-1"
+}
+// Sent from TV Box, to transition phones to the wait screen. 
+{
+    "type": "TIME_UP",
+    "game": "9425"
+}
+// Player guess
+{
+    "type": "SUBMIT_GUESS",
+    "sender": "myUsername",
+    "game": "9425",
+    "content": "Black Skinhead"
+}
+// Transitions to wait screen on phones
+{
+    "type": "CORRECT_ANSWER",
+    "sender": "myUsername",
+    "game": "9425"
+}
+// Lets them guess again
+{
+    "type": "INCORRECT_ANSWER",
+    "sender": "myUsername",
+    "game": "9425"
+}
+{
+    "type": "GAME_OVER",
+    "game": "9425"
+}
