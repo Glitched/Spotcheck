@@ -40,12 +40,14 @@ class Start extends React.Component {
 
   render() {
     return (
-      <TransitionMotion willLeave={this.willLeave}>
+    //   <TransitionMotion willLeave={this.willLeave}>
+    <React.Fragment>
         <Heading>Spotcheck</Heading>
         <Textbox id="code" type="tel" placeholder="Code" onChange={this.updateInputState} autofocus={true}/>
         <Textbox id="username" type="text" placeholder="Username" onChange={this.updateInputState} autofocus={false}/>
         <ActionButton action={this.handleClick} title="Let's Rock!"/>
-      </TransitionMotion>
+    </React.Fragment>
+    //   </TransitionMotion>
     );
   }
 }
