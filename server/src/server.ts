@@ -23,7 +23,7 @@ function createAction(type: string, game = 0, sender = '', content = ''): string
     return JSON.stringify(new Action(type, sender, content, game));
 }
 
-function forwardAction(action, ws, msg): void {
+var forwardAction = (action, ws, msg): void => {
     // Forward this action to all other game participants
     if (servers[action.game] != ws) {
         servers[action.game].send(msg);
@@ -35,7 +35,7 @@ function forwardAction(action, ws, msg): void {
     });
 }
 
-function registerUser(action, ws, msg): void {
+var registerUser = (action, ws, msg): void => {
     if (action.sender in players[action.game]) {
         ws.send(createAction("REJECT_USER", action.game, "", "Username already in use"));
     } else {
@@ -45,6 +45,29 @@ function registerUser(action, ws, msg): void {
     }
 }
 
+var forwardToServer = (action, ws, msg): void => {
+    servers[action.game].send(msg);
+}
+
+var respondToUser = (action, ws, msg): void => {
+    if (players[action.game][action.sender] != undefined) {
+        players[action.game][action.sender].send(msg);
+    } else {
+        ws.send(createAction("INVALID_USER"));
+    }
+}
+
+var actionHandlers = {
+    "REGISTER_USER": registerUser,
+    "SUBMIT_GUESS": forwardToServer,
+    "CORRECT_ANSWER": respondToUser,
+    "INCORRECT_ANSWER": respondToUser,
+    "GAME_OVER": forwardAction,
+    "NEW_SONG": forwardAction,
+    "TIME_UP": forwardAction,
+    "START_GAME": forwardAction,
+};
+
 function processAction(action, ws, msg) {
     if (action.type == "GET_TOKEN") {
         var gameID = Math.floor(1000 + Math.random() * 9000);
@@ -52,29 +75,10 @@ function processAction(action, ws, msg) {
         players[gameID] = []
         ws.send(createAction("CONFIRM_TOKEN", gameID));
     } else if (servers[action.game] != undefined) {
-        switch(action.type) {
-            case "REGISTER_USER":
-                registerUser(action, ws, msg)
-                break;
-            case "SUBMIT_GUESS":
-                servers[action.game].send(msg);
-                break;
-            case "CORRECT_ANSWER":
-            case "INCORRECT_ANSWER":
-                if (players[action.game][action.sender] != undefined) {
-                    players[action.game][action.sender].send(msg);
-                } else {
-                    ws.send(createAction("INVALID_USER"));
-                }
-                break;
-            case "GAME_OVER":
-            case "NEW_SONG":
-            case "TIME_UP":
-            case "START_GAME":
-                forwardAction(action, ws, msg);
-                break;
-            default:
-                ws.send(createAction("INVALID_ACTION"));
+        if (action.type in actionHandlers) {
+            actionHandlers[action.type](action, ws, msg);
+        } else {
+            ws.send(createAction("INVALID_ACTION"));
         }
     } else {
         ws.send(createAction("INVALID_GAME"));
@@ -95,8 +99,7 @@ wss.on('connection', (ws: WebSocket) => {
         try {
             const action = JSON.parse(msg) as Action;
             setTimeout(() => { processAction(action, ws, msg) }, 1000);
-        }
-        catch {
+        } catch {
             setTimeout(() => { ws.send(createAction("INVALID_ACTION_SYNTAX")) }, 1000);
         }
     });
