@@ -92,8 +92,13 @@ wss.on('connection', (ws: WebSocket) => {
     });
 
     ws.on('message', (msg: string) => {
-        const action = JSON.parse(msg) as Action;
-        setTimeout(() => { processAction(action, ws, msg) }, 1000);
+        try {
+            const action = JSON.parse(msg) as Action;
+            setTimeout(() => { processAction(action, ws, msg) }, 1000);
+        }
+        catch {
+            setTimeout(() => { ws.send(createAction("INVALID_ACTION_SYNTAX")) }, 1000);
+        }
     });
 
     //immediate feedback
