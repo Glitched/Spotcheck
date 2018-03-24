@@ -22,3 +22,6 @@ yarn-error.log*
 
 node_modules
 server/node_modules
+*.map
+
+server/src/dist/server/server.js
